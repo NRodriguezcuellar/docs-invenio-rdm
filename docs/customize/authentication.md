@@ -39,10 +39,10 @@ This way the external provider handles account management. `SECURITY_CONFIRMABLE
 that the user can be reached via a valid email.
 
 !!! warning "Make sure that your configuration is consistent!"
-    While *some* clearly inconsistent configurations (e.g. having `SECURITY_REGISTERABLE=True`
-    and at the same time `ACCOUNTS_LOCAL_LOGIN_ENABLED=False`) will trigger a console **warning**
-    when running the Invenio webserver, other inconsistent combinations may be silently
-    accepted and ultimately result in unexpected behaviors.
+While *some* clearly inconsistent configurations (e.g. having `SECURITY_REGISTERABLE=True`
+and at the same time `ACCOUNTS_LOCAL_LOGIN_ENABLED=False`) will trigger a console **warning**
+when running the Invenio webserver, other inconsistent combinations may be silently
+accepted and ultimately result in unexpected behaviors.
 
 ## External authentication
 
@@ -79,7 +79,8 @@ ORCID_APP_CREDENTIALS = dict(
 ```
 
 You can also test ORCID login using the ORCID sandbox environment.
-See the plugin [documentation](https://invenio-oauthclient.readthedocs.io/en/latest/usage.html#module-invenio_oauthclient.contrib.orcid)
+See the
+plugin [documentation](https://invenio-oauthclient.readthedocs.io/en/latest/usage.html#module-invenio_oauthclient.contrib.orcid)
 for more information.
 
 #### Keycloak
@@ -98,10 +99,9 @@ Information required to configure the InvenioRDM instance:
     * The client secret.
     * The target audience of Keycloak's JWTs (probably the same as the client ID).
 
-
 !!! note
-    The client configuration in Keycloak server must have its access type set
-    to *confidential* and use the client authenticator mechanism *client ID and secret*.
+The client configuration in Keycloak server must have its access type set
+to *confidential* and use the client authenticator mechanism *client ID and secret*.
 
 In your `invenio.cfg`:
 
@@ -141,7 +141,7 @@ more fine-grained control.
 Here is what the full configuration looks like:
 
 ```python
->>> helper.remote_app
+>> > helper.remote_app
 {
     "title": "Keycloak",
     "description": "Keycloak Authentication Service",
@@ -165,17 +165,17 @@ Here is what the full configuration looks like:
     }
 }
 
->>> helper.realm_url
+>> > helper.realm_url
 "https://myserver.com:4430/auth/realms/my-realm"
 
->>> helper.user_info_url
+>> > helper.user_info_url
 "https://myserver.com:4430/auth/realms/my-realm/protocol/openid-connect/userinfo"
 ```
 
 !!! note
-    The `precedence_mask` dictates which information about the user (name, email, etc.)
-    provided by authentication server should take precedence over any user input.
-    For more information, see [the related section](#on-the-precedence-mask).
+The `precedence_mask` dictates which information about the user (name, email, etc.)
+provided by authentication server should take precedence over any user input.
+For more information, see [the related section](#on-the-precedence-mask).
 
 You can modify default configuration directly in your `invenio.cfg`:
 
@@ -210,7 +210,7 @@ foo = KeycloakSettingsHelper(
     description="Keycloak Authentication foo provider",
     base_url="https://foo.com:4430",
     realm="foo-realm"
-    app_key="FOO_KEYCLOAK_APP_CREDENTIALS"
+app_key = "FOO_KEYCLOAK_APP_CREDENTIALS"
 )
 
 bar = KeycloakSettingsHelper(
@@ -218,7 +218,7 @@ bar = KeycloakSettingsHelper(
     description="Keycloak Authentication bar provider",
     base_url="https://bar.com:4430",
     realm="bar-realm"
-    app_key="BAR_KEYCLOAK_APP_CREDENTIALS"
+app_key = "BAR_KEYCLOAK_APP_CREDENTIALS"
 )
 
 OAUTHCLIENT_REMOTE_APPS = {
@@ -250,21 +250,23 @@ BAR_KEYCLOAK_APP_CREDENTIALS = {
 ```
 
 !!! warning "Naming convention"
-    Notice how the `app_key` param must match with the name of the config `<APP_KEY>_APP_CREDENTIALS`, uppercase,
-    and the name of the apps in the config `OAUTHCLIENT_REMOTE_APPS` (`foo_keycloak`, `bar_keycloak`) must match
-    with the related config vars `OAUTHCLIENT_FOO_KEYCLOAK_*` and `OAUTHCLIENT_BAR_KEYCLOAK_*`, uppercase.
+Notice how the `app_key` param must match with the name of the config `<APP_KEY>_APP_CREDENTIALS`, uppercase,
+and the name of the apps in the config `OAUTHCLIENT_REMOTE_APPS` (`foo_keycloak`, `bar_keycloak`) must match
+with the related config vars `OAUTHCLIENT_FOO_KEYCLOAK_*` and `OAUTHCLIENT_BAR_KEYCLOAK_*`, uppercase.
 
 #### OpenAIRE AAI
 
 Register a new application with OpenAIRE, by sending an email to <aai@openaire.eu>, with the following information:
 
 * Client ID for your application (e.g. ``my-app``).
-* One or more *Redirect URI*s pointing to ``https://<host>/oauth/authorized/openaire_aai/`` (e.g. ``https://localhost:5000/oauth/authorized/openaire_aai/``).
+* One or more *Redirect URI*s pointing to ``https://<host>/oauth/authorized/openaire_aai/`` (
+  e.g. ``https://localhost:5000/oauth/authorized/openaire_aai/``).
 * User claim scopes ``openid profile email orcid``.
 * One or more of the OpenID Connect/OAuth2 grant types: Authorization Code, Token Exchange, Device Code.
 * Optionally, you can request to also register an application for the OpenAIRE AAI sandbox instance for testing.
 
-After registering your application, you can enable OpenAIRE login in InvenioRDM by enabling the plugin and configuring the key and secret. In your `invenio.cfg`:
+After registering your application, you can enable OpenAIRE login in InvenioRDM by enabling the plugin and configuring
+the key and secret. In your `invenio.cfg`:
 
 ```python
 from invenio_oauthclient.contrib import openaire_aai
@@ -279,7 +281,8 @@ OPENAIRE_APP_CREDENTIALS = dict(
 )
 ```
 
-In case you want use the sandbox environment, use ``openaire_aai.REMOTE_SANDBOX_APP`` instead of ``openaire_aai.REMOTE_APP``.
+In case you want use the sandbox environment, use ``openaire_aai.REMOTE_SANDBOX_APP`` instead
+of ``openaire_aai.REMOTE_APP``.
 
 ### Login automatic redirection
 
@@ -289,6 +292,7 @@ In your `invenio.cfg`:
 
 ```python
 from invenio_oauthclient.views.client import auto_redirect_login
+
 ACCOUNTS_LOGIN_VIEW_FUNCTION = auto_redirect_login
 OAUTHCLIENT_AUTO_REDIRECT_TO_EXTERNAL_LOGIN = True
 ```
@@ -355,6 +359,56 @@ PERMANENT_SESSION_LIFETIME = timedelta(days=1)
 
 ## Advanced integrations
 
+### Groups
+
+Groups are a new addition included in the [v9.0](https://inveniordm.docs.cern.ch/releases/versions/version-v9.0.0/)
+communities feature.
+
+If this feature fits one of your use cases, it is very likely that you already have a store in place for your
+groups. You will need to keep your RDM instance synced with your store.
+
+A possible scenario could be that you want to authorize access to resources (records, views, files, etc.)
+based on the group a user is
+part of (e.g. LDAP groups/attributes).
+
+Assuming you're implementing a
+custom [OAuth plugin](https://inveniordm.docs.cern.ch/customize/authentication/#new-oauth-plugins), the fetching of user
+groups will happen after having fetched user information,
+which happens in
+the [`signup_handler.info`](https://inveniordm.docs.cern.ch/customize/authentication/#allowdeny-user-login) handler of
+each OAuth/Keycloak plugins in `invenio-oauthclient`.
+
+```python
+def info_handler(remote, resp):
+    ...
+    # existing code
+    user_info = get_user_info(remote, resp)
+    ...
+    # new implementation: fetch groups synchronously
+    roles_or_groups_names = fetch_roles_or_groups_names(remote, user_info)
+    provides = set(UserNeed(current_user.email))
+    # add groups as Invenio roles to user session
+    for name in roles_or_groups_names:
+        provides.add(RoleNeed(name))
+    identity.provides |= provides
+    session["<my_external_app_name>_roles"] = provides
+    # end new implementation
+    ...
+```
+
+!!! warning "Use at your own risk"
+
+The `fetch_roles_or_groups_names` might retrieve the user groups from the `user_info` attributes previously fetched
+or perform a new network request to fetch them from other REST APIs.
+
+When groups cannot be retrieved synchronously in the same HTTP request (slow or heavy task), a possible solution could
+be:
+
+1. Fetch user groups async in a celery task and store it in the database. The `RemoteAccount` database table
+   contains a `extra_data` column which could be used to "cache" user groups.
+2. On login, enrich the user session identity `provides` by reading the list of groups from the database.
+3. Refresh the list of user groups of each user when it makes sense in the organization context.
+
 ### Custom login page
 
 You can customize the login page template to display different information or
@@ -362,8 +416,12 @@ change its look and feel.
 
 Start from an existing template:
 
-* If you have local login only, copy the folder [templates/semantic-ui](https://github.com/inveniosoftware/invenio-accounts/tree/master/invenio_accounts/templates/semantic-ui) from `invenio-accounts`.
-* If you have external authentication, copy the folder [templates/semantic-ui](https://github.com/inveniosoftware/invenio-oauthclient/tree/master/invenio_oauthclient/templates/semantic-ui) from `invenio-oauthclient`.
+* If you have local login only, copy the
+  folder [templates/semantic-ui](https://github.com/inveniosoftware/invenio-accounts/tree/master/invenio_accounts/templates/semantic-ui)
+  from `invenio-accounts`.
+* If you have external authentication, copy the
+  folder [templates/semantic-ui](https://github.com/inveniosoftware/invenio-oauthclient/tree/master/invenio_oauthclient/templates/semantic-ui)
+  from `invenio-oauthclient`.
 
 Then, open the `templates` folder in `my-site` (your instance) and paste it there. Inside the
 `invenio-accounts`/`invenio-oauthclient` folder, keep only the template file that you want to customize.
@@ -423,6 +481,7 @@ def my_registration_form(*args, **kwargs):
             recaptcha = None  # remove the captcha
             submit = None  # remove submit btn, already defined in the template
             terms_of_use = BooleanField(terms_of_use_text, [validators.required()])  # add the new field
+
         return DefaultRegistrationForm(*args, **kwargs)
     else:
         # ORCID does not provide the user e-mail address, it must be input by the user.
@@ -433,6 +492,7 @@ def my_registration_form(*args, **kwargs):
             recaptcha = None  # remove the captcha
             submit = None  # remove submit btn, already defined in the template
             terms_of_use = BooleanField(terms_of_use_text, [validators.required()])  # add the new field
+
         return OrcidRegistrationForm(*args, **kwargs)
 ```
 
@@ -457,67 +517,69 @@ In your `invenio.cfg`:
 ```python
 from invenio_oauthclient.contrib.settings import OauthSettingsHelper
 
+
 class MyOAuthSettingsHelper(OAuthSettingsHelper):
     def __init__():
         super().__init__(
             title="my plugin",
             description="a description",
             base_url="https://myserver.com/,
-            app_key="MY_APP_CREDENTIALS",
-            access_token_url="https://myserver.com/oauth/token",
-            authorize_url="https://myserver.com/oauth/authorize",
+        app_key = "MY_APP_CREDENTIALS",
+                  access_token_url = "https://myserver.com/oauth/token",
+                                     authorize_url = "https://myserver.com/oauth/authorize",
         )
 
-    def get_handlers(self):
-        return dict(
-            authorized_handler='invenio_oauthclient.handlers'
-                               ':authorized_signup_handler',
-            disconnect_handler=my_disconnect_handler,
-            signup_handler=dict(
-                info=my_account_info,
-                setup=my_account_setup,
-                view='invenio_oauthclient.handlers:signup_handler',
+        def get_handlers(self):
+            return dict(
+                authorized_handler='invenio_oauthclient.handlers'
+                                   ':authorized_signup_handler',
+                disconnect_handler=my_disconnect_handler,
+                signup_handler=dict(
+                    info=my_account_info,
+                    setup=my_account_setup,
+                    view='invenio_oauthclient.handlers:signup_handler',
+                )
             )
-        )
 
-    def get_rest_handlers(self):
-        return dict(
-            authorized_handler='invenio_oauthclient.handlers.rest'
-                               ':authorized_signup_handler',
-            disconnect_handler=my_disconnect_handler,
-            signup_handler=dict(
-                info=my_account_info,
-                setup=my_account_setup,
-                view='invenio_oauthclient.handlers.rest:signup_handler',
-            ),
-            response_handler='invenio_oauthclient.handlers.rest'
-                             ':default_remote_response_handler',
-            authorized_redirect_url='/',
-            disconnect_redirect_url='/',
-            signup_redirect_url='/',
-            error_redirect_url='/'
-        )
-)
+        def get_rest_handlers(self):
+            return dict(
+                authorized_handler='invenio_oauthclient.handlers.rest'
+                                   ':authorized_signup_handler',
+                disconnect_handler=my_disconnect_handler,
+                signup_handler=dict(
+                    info=my_account_info,
+                    setup=my_account_setup,
+                    view='invenio_oauthclient.handlers.rest:signup_handler',
+                ),
+                response_handler='invenio_oauthclient.handlers.rest'
+                                 ':default_remote_response_handler',
+                authorized_redirect_url='/',
+                disconnect_redirect_url='/',
+                signup_redirect_url='/',
+                error_redirect_url='/'
+            )
 
-def my_disconnect_handler(...):
-    ...
+    )
 
-def my_account_info(...):
-    ...
+    def my_disconnect_handler(...):
+        ...
 
-def my_account_setup(...):
-    ...
+    def my_account_info(...):
+        ...
 
-myOAuthHelper = MyOAuthSettingsHelper()
+    def my_account_setup(...):
+        ...
 
-OAUTHCLIENT_REMOTE_APPS = dict(
-    myoauth=myOAuthHelper.remote_app,
-)
+    myOAuthHelper = MyOAuthSettingsHelper()
 
-MY_APP_CREDENTIALS = dict(
-    consumer_key="<my-key>",
-    consumer_secret="<my-secret>",
-)
+    OAUTHCLIENT_REMOTE_APPS = dict(
+        myoauth=myOAuthHelper.remote_app,
+    )
+
+    MY_APP_CREDENTIALS = dict(
+        consumer_key="<my-key>",
+        consumer_secret="<my-secret>",
+    )
 ```
 
 ### Allow/deny user login
@@ -533,6 +595,7 @@ Then, implement the `signup_handler.info` handler as the following (example take
 ```python
 from flask import flash
 
+
 def account_info(remote, resp):
     user_info = get_user_info(remote, resp)
     email = user_info["email"].lower()
@@ -547,20 +610,22 @@ def account_info(remote, resp):
 ### SAML integration
 
 !!! warning
-    While the SAML integration has been tested and should be working following the guide below, it might still need
-    some further updates, in particular to make its configuration easier.
+While the SAML integration has been tested and should be working following the guide below, it might still need
+some further updates, in particular to make its configuration easier.
 
 SAML stands for Security Assertion Markup Language. It is an XML-based open-standard for transferring identity
 data between two parties: an identity provider (IdP) and a service provider (SP).
 
-* **Identity Provider (IDP)**: Performs authentication and passes the user's identity and authorization level to the service provider.
-* **Service Provider (SP)**: Trusts the identity provider and authorizes the given user to access the requested resource.
+* **Identity Provider (IDP)**: Performs authentication and passes the user's identity and authorization level to the
+  service provider.
+* **Service Provider (SP)**: Trusts the identity provider and authorizes the given user to access the requested
+  resource.
 
 #### Prerequisites
 
 * Make sure you have installed in your system:
 
-    `libxml2-dev libxmlsec1-dev`
+  `libxml2-dev libxmlsec1-dev`
 
 * Make sure you have installed the required Invenio Python module:
 
@@ -584,7 +649,7 @@ List of information required to configure the InvenioRDM instance.
 * **x509cert**: Public X.509 certificate of the IdP.
 * **Attributes mapping**: IDP in Assertion of the SAML Response provides a dict with all the user data:
 
-    For example, given the following SAML response:
+  For example, given the following SAML response:
 
     ```json
     {
@@ -595,7 +660,7 @@ List of information required to configure the InvenioRDM instance.
     }
     ```
 
-    You can create a mapping to the user account fields required by Invenio as the following:
+  You can create a mapping to the user account fields required by Invenio as the following:
 
     ```json
         "mappings": {
@@ -642,12 +707,12 @@ SSO_SAML_IDPS = {
         "icon": "",
 
         # path to the file i.e. "./saml/sp.crt"
-		'sp_cert_file': '<./SP_CERT_FILE>',
+        'sp_cert_file': '<./SP_CERT_FILE>',
 
         # path to the file i.e. "./saml/sp.key"
-		'sp_key_file': '<./SP_KEY_FILE>',
+        'sp_key_file': '<./SP_KEY_FILE>',
 
-        'settings':{
+        'settings': {
             # If strict is True, then the Python Toolkit will reject unsigned
             # or unencrypted messages if it expects them to be signed or encrypted.
             # Also it will reject the messages if the SAML standard is not strictly
@@ -684,7 +749,7 @@ SSO_SAML_IDPS = {
                     # message. OneLogin Toolkit supports the HTTP-Redirect binding
                     # only for this endpoint.
                     'binding':
-                    'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect'
+                        'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect'
                 },
 
                 # SLO endpoint info of the IdP.
@@ -697,10 +762,10 @@ SSO_SAML_IDPS = {
                     # message. OneLogin Toolkit supports the HTTP-Redirect binding
                     # only for this endpoint.
                     'binding':
-                    'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect'
+                        'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect'
                 },
-                    # Public X.509 certificate of the IdP
-                    'x509cert': '<X.509_oneliner>'
+                # Public X.509 certificate of the IdP
+                'x509cert': '<X.509_oneliner>'
             },
 
             # Security settings
@@ -731,11 +796,11 @@ SSO_SAML_IDPS = {
 
         # Account Mapping
         "mappings": {
-           "email": "<attribute_email>",
-           "name": "<attribute_name>",
-           "surname": "<attribute_surname>",
-           "external_id": "<attribute_external_id>",
-          },
+            "email": "<attribute_email>",
+            "name": "<attribute_name>",
+            "surname": "<attribute_surname>",
+            "external_id": "<attribute_external_id>",
+        },
 
         # Inject your remote_app to handler
         # Note: keep in mind the string should match
@@ -757,28 +822,29 @@ OAUTHCLIENT_LOGIN_USER_TEMPLATE = "invenio_saml/login_user.html"
 
 #### Multiple SAML authentication providers
 
-You might have the need to integrate multiple SAML authentication providers at the same time, to allow users to login with one or the other.
+You might have the need to integrate multiple SAML authentication providers at the same time, to allow users to login
+with one or the other.
 You can define multiple SAML apps in your `invenio.cfg`:
 
 ```python
 SSO_SAML_IDPS = {
     # First authentication provider
     "remote_app": {
-                 ....
-     'settings': {
-                 ....
-                   },
-                 ....
-       'acs_handler': acs_handler_factory('remote_app'),
+        ....
+    'settings': {
+        ....
     },
-    # Second authentication provider
-    "remote_app2": {
-                 ....
-     'settings': {
-                 ....
-                   },
-                 ....
-       'acs_handler': acs_handler_factory('remote_app2'),
-    },
+    ....
+        'acs_handler': acs_handler_factory('remote_app'),
+},
+# Second authentication provider
+"remote_app2": {
+    ....
+'settings': {
+    ....
+},
+....
+'acs_handler': acs_handler_factory('remote_app2'),
+},
 }
 ```
